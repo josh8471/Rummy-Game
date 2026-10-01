@@ -1,0 +1,259 @@
+@import 'tailwindcss';
+
+/*
+ * SimCasino design tokens. Dark, premium, high-contrast.
+ * Breakpoints use Tailwind defaults, which match the PRD:
+ * sm 640 · md 768 · lg 1024 · xl 1280 · 2xl 1536.
+ */
+@theme {
+  --font-display: 'Outfit Variable', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-sans: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+
+  --color-ink-950: #07090f;
+  --color-ink-900: #0b0f19;
+  --color-ink-850: #0f1420;
+  --color-ink-800: #141a27;
+  --color-ink-700: #1c2434;
+  --color-ink-600: #283246;
+  --color-ink-500: #3a4660;
+
+  --color-fg: #eef1f7;
+  --color-muted: #a3adc2;
+  --color-subtle: #7c879d;
+
+  --color-gold-200: #fdeaa8;
+  --color-gold-300: #fcd97a;
+  --color-gold-400: #f7c948;
+  --color-gold-500: #e5a91a;
+  --color-gold-600: #b98510;
+
+  --color-win: #34d399;
+  --color-win-soft: #064e3b;
+  --color-loss: #fb7185;
+  --color-loss-soft: #4c0519;
+  --color-big: #c4b5fd;
+
+  --color-table-red: #d12e3f;
+  --color-table-black: #1b2130;
+  --color-table-green: #14935a;
+  /* Chart series (validated categorical slots, dark surface). */
+  --color-series-1: #3987e5;
+  --color-series-2: #d95926;
+  --color-series-3: #199e70;
+  --color-series-4: #c98500;
+
+  --color-felt: #0c5a3d;
+  --color-felt-dark: #073a28;
+
+  --animate-deal: deal 420ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  --animate-pop: pop 360ms cubic-bezier(0.2, 0.9, 0.3, 1.3) both;
+  --animate-fade-up: fade-up 320ms ease-out both;
+  --animate-shake: shake 520ms ease-in-out;
+  --animate-glow: glow 1.6s ease-in-out infinite;
+  --animate-tumble: tumble 700ms cubic-bezier(0.3, 0.7, 0.3, 1) both;
+  --animate-sheet: sheet-up 280ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+
+  @keyframes deal {
+    from {
+      opacity: 0;
+      transform: translateY(-28px) scale(0.85) rotate(-6deg);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+  @keyframes pop {
+    0% {
+      opacity: 0;
+      transform: scale(0.6);
+    }
+    100% {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+  @keyframes fade-up {
+    from {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+  @keyframes shake {
+    0%,
+    100% {
+      transform: translateX(0);
+    }
+    20%,
+    60% {
+      transform: translateX(-5px);
+    }
+    40%,
+    80% {
+      transform: translateX(5px);
+    }
+  }
+  @keyframes glow {
+    0%,
+    100% {
+      box-shadow: 0 0 0 0 rgb(247 201 72 / 0);
+    }
+    50% {
+      box-shadow: 0 0 28px 2px rgb(247 201 72 / 0.35);
+    }
+  }
+  @keyframes tumble {
+    0% {
+      transform: rotate(0) translateY(-18px) scale(0.9);
+    }
+    60% {
+      transform: rotate(560deg) translateY(4px) scale(1.04);
+    }
+    100% {
+      transform: rotate(720deg) translateY(0) scale(1);
+    }
+  }
+  @keyframes sheet-up {
+    from {
+      transform: translateY(100%);
+    }
+    to {
+      transform: none;
+    }
+  }
+}
+
+@layer base {
+  html {
+    color-scheme: dark;
+    background: var(--color-ink-950);
+    -webkit-tap-highlight-color: transparent;
+    text-size-adjust: 100%;
+  }
+  body {
+    min-height: 100dvh;
+    background: var(--color-ink-950);
+    color: var(--color-fg);
+    font-family: var(--font-sans);
+    font-size: 15px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+  @media (min-width: 1280px) {
+    body {
+      font-size: 16px;
+    }
+  }
+  /* Soft ambient light behind everything. */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background:
+      radial-gradient(60rem 40rem at 10% -10%, rgb(247 201 72 / 0.07), transparent 60%),
+      radial-gradient(50rem 40rem at 110% 110%, rgb(124 58 237 / 0.08), transparent 60%);
+  }
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display);
+    letter-spacing: -0.015em;
+    text-wrap: balance;
+  }
+  button,
+  [role='button'],
+  summary,
+  label[for] {
+    cursor: pointer;
+  }
+  button:disabled {
+    cursor: not-allowed;
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-gold-400);
+    outline-offset: 2px;
+    border-radius: 6px;
+  }
+  ::selection {
+    background: rgb(247 201 72 / 0.35);
+  }
+  input[type='number'] {
+    -moz-appearance: textfield;
+  }
+  input[type='number']::-webkit-inner-spin-button,
+  input[type='number']::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  dialog::backdrop {
+    background: rgb(3 5 10 / 0.72);
+    backdrop-filter: blur(3px);
+  }
+}
+
+@utility glass {
+  background: linear-gradient(180deg, rgb(255 255 255 / 0.045), rgb(255 255 255 / 0.02));
+  border: 1px solid rgb(255 255 255 / 0.08);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.05),
+    0 10px 30px -12px rgb(0 0 0 / 0.6);
+}
+
+@utility gold-text {
+  background: linear-gradient(180deg, var(--color-gold-200), var(--color-gold-500));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+@utility tabular {
+  font-variant-numeric: tabular-nums;
+}
+
+@utility no-scrollbar {
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+@utility felt {
+  background:
+    radial-gradient(ellipse at 50% 0%, rgb(255 255 255 / 0.1), transparent 60%),
+    radial-gradient(ellipse at 50% 120%, rgb(0 0 0 / 0.45), transparent 60%),
+    linear-gradient(180deg, var(--color-felt), var(--color-felt-dark));
+}
+
+@utility pb-safe {
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+/*
+ * Reduced motion: honour the OS setting unless the player chose "Full motion",
+ * and honour the in-app "Reduce motion" setting. Long animations become short fades.
+ */
+@media (prefers-reduced-motion: reduce) {
+  html:not([data-motion='full']) *,
+  html:not([data-motion='full']) *::before,
+  html:not([data-motion='full']) *::after {
+    animation-duration: 120ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 120ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+html[data-motion='reduce'] *,
+html[data-motion='reduce'] *::before,
+html[data-motion='reduce'] *::after {
+  animation-duration: 120ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 120ms !important;
+  scroll-behavior: auto !important;
+}

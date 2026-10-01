@@ -1,0 +1,28 @@
+{
+  "name": "casino-simulation",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Mock Indian Casino Simulation Game — virtual ₹ only, no cash value",
+  "type": "module",
+  "workspaces": [
+    "shared",
+    "server",
+    "apps/web"
+  ],
+  "scripts": {
+    "dev": "concurrently -k -n api,web -c yellow,cyan \"npm:dev -w @casino/server\" \"npm:dev -w @casino/web\"",
+    "build": "npm run build -w @casino/web",
+    "start": "npm run start -w @casino/server",
+    "test": "npm run test -w @casino/server",
+    "typecheck": "npm run typecheck --workspaces --if-present",
+    "db:generate": "npm run db:generate -w @casino/server",
+    "db:reset": "npm run db:reset -w @casino/server"
+  },
+  "devDependencies": {
+    "concurrently": "^10.0.5",
+    "typescript": "^7.0.2"
+  },
+  "engines": {
+    "node": ">=20.19"
+  }
+}
